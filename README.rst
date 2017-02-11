@@ -2,6 +2,11 @@ python-duckduckgo-search
 ======
 Simple duckduckgo client library
 
+Dependencies
+----
+- beautifulsoup4 (https://www.crummy.com/software/BeautifulSoup/)
+- requests (https://github.com/kennethreitz/requests)
+
 Installation
 ----
 
