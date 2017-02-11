@@ -74,6 +74,7 @@ class Result(object):
         self.result_tag = result_tag
         self.url = self._fetch_url()
         self.title = self._fetch_title()
+        self.description = self._fetch_description()
 
     def __repr__(self):
         return '<Result: {} ({})>'.format(self.title, self.url)
@@ -88,6 +89,11 @@ class Result(object):
         a_tag = self.result_tag.find('a', class_='result__a')
         title = a_tag.get_text()
         return title
+
+    def _fetch_description(self):
+        snippet_tag = self.result_tag.find('a', class_='result__snippet')
+        description = snippet_tag.get_text()
+        return description
 
 class Search(object):
 
