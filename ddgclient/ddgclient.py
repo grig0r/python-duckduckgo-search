@@ -18,7 +18,7 @@ class ResultPage(object):
         self.q = q
         self.start = start
         self.soup = self.get_soup()
-        self.results = [Result(result_tag) for result_tag in self.soup.find_all('div', class_='result')]
+        self.results = [Result(result_tag) for result_tag in self.soup.find_all(self.is_result_tag)]
 
     def get_soup(self):
         payload = {
@@ -31,6 +31,15 @@ class ResultPage(object):
         response = requests.get(BASE_URL, params=payload)
         soup = BeautifulSoup(response.content, 'html.parser')
         return soup
+
+    def is_result_tag(self, tag):
+        if tag.name == 'div' and tag.has_attr('class') and 'result' in tag.attrs.get('class'):
+            a_tag = tag.find(class_='result__a')
+            href = a_tag.attrs.get('href')
+            qs_dict = parse_qs(urlsplit(href).query)
+            return 'uddg' in qs_dict.keys()
+        else:
+            return False
 
     def is_nav_tag(self, tag):
         if tag.name == 'div' \
@@ -53,7 +62,8 @@ class ResultPage(object):
             return False
 
     @staticmethod
-    def _get_s(nav_tag):
+    def _get_start(nav_tag):
+        """Get start argument from nav_tag"""
         return nav_tag.find('input', attrs={'name' : 's'}).attrs.get('value')
 
     def get_next_page(self):
