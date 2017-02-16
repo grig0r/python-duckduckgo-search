@@ -70,13 +70,13 @@ class ResultPage(object):
         next_tag = self.soup.find(self.is_next_tag)
         if not next_tag:
             raise StopIteration
-        return self.__class__(q=self.q, start=self._get_s(next_tag))
+        return self.__class__(q=self.q, start=self._get_start(next_tag))
 
     def get_previous_page(self):
         previous_tag = self.soup.find(self.is_previous_tag)
         if not previous_tag:
             raise StopIteration
-        return self.__class__(q=self.q, start=self._get_s(previous_tag))
+        return self.__class__(q=self.q, start=self._get_start(previous_tag))
 
 class Result(object):
 
